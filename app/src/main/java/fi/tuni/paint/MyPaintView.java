@@ -59,6 +59,11 @@ class MyPaintView extends View {
             case (MotionEvent.ACTION_DOWN) :
                 path.moveTo(x, y);
                 break;
+            case (MotionEvent.ACTION_UP) :
+                canvas.drawPath(path, paintD);
+                path.reset();
+                invalidate();
+                break;
             default :
                 return false;
         }
