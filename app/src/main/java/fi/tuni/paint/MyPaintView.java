@@ -3,12 +3,17 @@ package fi.tuni.paint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
+import android.support.constraint.solver.widgets.Rectangle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 class MyPaintView extends View {
     private Canvas canvas;
@@ -18,9 +23,12 @@ class MyPaintView extends View {
     private Paint paintD;
     private Paint paintC;
 
-    private float size;
+    private float objectSize;
+    private float brushSize;
     private int color;
 
+    private int drawMode;
+    private boolean fill;
 
     public MyPaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -30,21 +38,25 @@ class MyPaintView extends View {
 
         paintC.setAntiAlias(true);
 
-        size = 10f;
+        brushSize = 10f;
+        objectSize = 10f;
         color = 0xff000000;
+        drawMode = 1;
 
         paintD.setStyle(Paint.Style.STROKE);
         paintD.setStrokeCap(Paint.Cap.ROUND);
 
         paintD.setColor(color);
-        paintD.setStrokeWidth(size);
+        paintD.setStrokeWidth(brushSize);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(bm, 0, 0, paintC);
-        canvas.drawPath(path, paintD);
+        if (drawMode <= 1) {
+            canvas.drawPath(path, paintD);
+        }
     }
 
     @Override
@@ -60,7 +72,20 @@ class MyPaintView extends View {
                 path.moveTo(x, y);
                 break;
             case (MotionEvent.ACTION_UP) :
-                canvas.drawPath(path, paintD);
+                switch (drawMode) {
+                    case (0) :
+                        canvas.drawPath(path, paintD);
+                        break;
+                    case (1) :
+                        canvas.drawPath(path, paintD);
+                        break;
+                    case (2) :
+                        canvas.drawCircle(x, y, objectSize, paintD);
+                        break;
+                    case (3) :
+                        canvas.drawRect(x, objectSize, objectSize, y, paintD);
+                        break;
+                }
                 path.reset();
                 invalidate();
                 break;
@@ -86,9 +111,52 @@ class MyPaintView extends View {
 
     public void setColor(int color) {
         this.color = color;
+        paintD.setColor(color);
     }
 
-    public void setSize(float size) {
-        this.size = size;
+    public int getColor() {
+        return color;
+    }
+
+    public void setObjectSize(float objectSize) {
+        this.objectSize = objectSize;
+    }
+
+    public void setBrushSize(float brushSize) {
+        this.brushSize = brushSize;
+        paintD.setStrokeWidth(brushSize);
+    }
+
+    public void setFill(boolean fill) {
+        this.fill = fill;
+
+        if (fill) {
+            paintD.setStyle(Paint.Style.FILL_AND_STROKE);
+        } else {
+            paintD.setStyle(Paint.Style.STROKE);
+        }
+    }
+
+    public boolean isFill() {
+        return fill;
+    }
+
+    public float getObjectSize() {
+        return objectSize;
+    }
+
+    public float getBrushSize() {
+        return brushSize;
+    }
+
+    public void setDrawMode(int drawMode) {
+        this.drawMode = drawMode;
+
+        if (drawMode == 0) {
+            paintD.setStyle(Paint.Style.STROKE);
+            paintD.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        } else {
+            paintD.setXfermode(null);
+        }
     }
 }
