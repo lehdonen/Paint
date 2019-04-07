@@ -50,7 +50,13 @@ public class MainActivity extends AppCompatActivity {
                     public void OnColorChanged(int color) {
                         mpw.setColor(color);
                     }
-                }, mpw.getColor());
+
+                    @Override
+                    public void SaveRGB(int r, int g, int b) {
+                        mpw.setRGB(r, g, b);
+                    }
+                }, mpw.getColor(), mpw.getR(), mpw.getG(), mpw.getB());
+
                 colorDialog.show();
 
                 return true;

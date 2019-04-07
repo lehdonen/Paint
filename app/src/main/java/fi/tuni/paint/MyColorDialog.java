@@ -16,15 +16,16 @@ public class MyColorDialog extends Dialog {
 
     public interface OnColorChangedListener {
         void OnColorChanged(int color);
+        void SaveRGB(int r, int g, int b);
     }
 
-    public MyColorDialog(Context context, OnColorChangedListener onColorChangedListener, int initialColor) {
+    public MyColorDialog(Context context, OnColorChangedListener onColorChangedListener, int initialColor, int initialR, int initialG, int initialB) {
         super(context);
         this.initialColor = initialColor;
         this.listener = onColorChangedListener;
-        this.r = 0;
-        this.g = 0;
-        this.b = 0;
+        this.r = initialR;
+        this.g = initialG;
+        this.b = initialB;
     }
 
     @Override
@@ -137,5 +138,10 @@ public class MyColorDialog extends Dialog {
         return this.colorToBe;
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        listener.SaveRGB(getR(), getG(), getB());
+    }
 }
 

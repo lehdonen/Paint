@@ -29,6 +29,7 @@ class MyPaintView extends View {
 
     private int drawMode;
     private boolean fill;
+    private int r, g, b;
 
     public MyPaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -158,5 +159,23 @@ class MyPaintView extends View {
         } else {
             paintD.setXfermode(null);
         }
+    }
+
+    public void setRGB(int r, int g, int b) {
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    public int getG() {
+        return g;
+    }
+
+    public int getB() {
+        return b;
     }
 }
