@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:minWidth="250sp"
+    android:minHeight="400sp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:src="@drawable/brush_48"
+        android:onClick="onDrawModeButtonClick"
+        android:id="@+id/b1"
+        android:layout_weight="0.29"/>
+
+    <ImageButton
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:src="@drawable/circle_48"
+        android:onClick="onDrawModeButtonClick"
+        android:id="@+id/b2"
+        android:layout_weight="0.29"/>
+
+    <ImageButton
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:src="@drawable/rectangle_48"
+        android:onClick="onDrawModeButtonClick"
+        android:id="@+id/b3"
+        android:layout_weight="0.29"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:text="Line Thickness"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:id="@+id/sizeBar"
+        android:max="100"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:text="Shape Size"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:id="@+id/objectSizeBar"
+        android:max="100"/>
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Fill Shape?"
+        android:textSize="20sp"
+        android:gravity="center_horizontal"
+        android:id="@+id/fillBox"
+        android:layout_weight="0.29"/>
+
+</LinearLayout>
