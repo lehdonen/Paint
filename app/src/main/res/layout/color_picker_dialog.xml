@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:minWidth="250sp"
+    android:minHeight="400sp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4"
+        android:text="Red"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:id="@+id/rBar"
+        android:max="255"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4"
+        android:text="Green"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:id="@+id/gBar"
+        android:max="255"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4"
+        android:text="Blue"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4"
+        android:id="@+id/bBar"
+        android:max="255"/>
+
+    <ImageView
+        android:id="@+id/newColor"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_weight="0.3" />
+
+</LinearLayout>
