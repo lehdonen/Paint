@@ -1,6 +1,10 @@
 package fi.tuni.paint;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,14 +14,37 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
+/**
+ * Main activity of paint app.
+ */
 public class MainActivity extends AppCompatActivity {
     private Dialog dialog;
+    private boolean galleryPermission;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+
+        final MyPaintView mpw = findViewById(R.id.mpw);
+        MyColorDialog colorDialog = new MyColorDialog(this, new MyColorDialog.OnColorChangedListener() {
+            @Override
+            public void OnColorChanged(int color) {
+                mpw.setBgColor(color);
+            }
+
+            @Override
+            public void SaveRGB(int r, int g, int b) {
+            }
+        }, mpw.getColor(), mpw.getR(), mpw.getG(), mpw.getB(), 1);
+
+        colorDialog.show();
     }
 
     @Override
@@ -55,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     public void SaveRGB(int r, int g, int b) {
                         mpw.setRGB(r, g, b);
                     }
-                }, mpw.getColor(), mpw.getR(), mpw.getG(), mpw.getB());
+                }, mpw.getColor(), mpw.getR(), mpw.getG(), mpw.getB(), 0);
 
                 colorDialog.show();
 
@@ -125,10 +152,44 @@ public class MainActivity extends AppCompatActivity {
                 mpw = findViewById(R.id.mpw);
                 mpw.setDrawMode(0);
                 return true;
+            case (R.id.save) :
+                if (galleryPermission) {
+                    save();
+                } else {
+                    Toast.makeText(this, "No permission to use device gallery", Toast.LENGTH_LONG).show();
+                }
+                return true;
         }
         return false;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                galleryPermission = true;
+            } else {
+                galleryPermission = false;
+            }
+        }
+    }
+
+    /**
+     * Method for saving drawing to device gallery.
+     */
+    public void save() {
+        MyPaintView mpw = findViewById(R.id.mpw);
+
+        MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),
+                mpw.getBitMap(),"PaintDrawing","Paint drawing");
+        Toast.makeText(this, "Drawing saved to device gallery", Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Method for changing paints drawing mode.
+     *
+     * @param v Used to input pressed button.
+     */
     public void onDrawModeButtonClick(View v) {
         MyPaintView mpw = findViewById(R.id.mpw);
 
