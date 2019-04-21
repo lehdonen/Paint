@@ -26,4 +26,11 @@
         android:id="@+id/chooseColor"
         android:icon="@drawable/palette_24" />
 
+    <item
+        android:title="Save"
+        android:icon="@drawable/save_24"
+        app:showAsAction="always"
+        android:id="@+id/save"
+        />
+
 </menu>
