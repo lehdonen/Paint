@@ -44,7 +44,8 @@
         android:layout_height="match_parent"
         android:layout_weight="0.3"
         android:id="@+id/sizeBar"
-        android:max="100"/>
+        android:max="100"
+        android:thumb="@drawable/thumb"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -60,7 +61,8 @@
         android:layout_height="match_parent"
         android:layout_weight="0.3"
         android:id="@+id/objectSizeBar"
-        android:max="100"/>
+        android:max="100"
+        android:thumb="@drawable/thumb"/>
 
     <CheckBox
         android:layout_width="match_parent"

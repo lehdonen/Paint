@@ -20,7 +20,8 @@
         android:layout_height="match_parent"
         android:layout_weight="0.3"
         android:id="@+id/rBar"
-        android:max="255"/>
+        android:max="255"
+        android:thumb="@drawable/thumb"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -36,7 +37,8 @@
         android:layout_height="match_parent"
         android:layout_weight="0.3"
         android:id="@+id/gBar"
-        android:max="255"/>
+        android:max="255"
+        android:thumb="@drawable/thumb"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -52,7 +54,8 @@
         android:layout_height="match_parent"
         android:layout_weight="0.4"
         android:id="@+id/bBar"
-        android:max="255"/>
+        android:max="255"
+        android:thumb="@drawable/thumb"/>
 
     <ImageView
         android:id="@+id/newColor"
