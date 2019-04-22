@@ -237,6 +237,7 @@ class MyPaintView extends View {
     public void setBgColor(int color) {
         this.bgColor = color;
         mCanvas.drawColor(color);
+        invalidate();
     }
 
     /**
