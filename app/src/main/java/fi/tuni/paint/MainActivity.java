@@ -174,8 +174,22 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "Draw something first", Toast.LENGTH_LONG).show();
                 }
-
                 return true;
+            case (R.id.bgColor) :
+                mpw = findViewById(R.id.mpw);
+
+                colorDialog = new MyColorDialog(this, new MyColorDialog.OnColorChangedListener() {
+                    @Override
+                    public void OnColorChanged(int color) {
+                        mpw.setBgColor(color);
+                    }
+
+                    @Override
+                    public void SaveRGB(int r, int g, int b) {
+                    }
+                }, mpw.getBgColor(), 255, 255, 255, 1);
+
+                colorDialog.show();
         }
         return false;
     }

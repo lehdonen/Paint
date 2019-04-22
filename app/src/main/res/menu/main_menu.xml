@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:title="Background color"
+        app:showAsAction="collapseActionView"
+        android:id="@+id/bgColor"
+        />
+
+    <item
         android:title="Clear"
         app:showAsAction="collapseActionView"
         android:id="@+id/clearCanvas"
