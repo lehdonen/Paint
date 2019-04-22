@@ -9,19 +9,26 @@
         />
 
     <item
-        android:title="eraser"
+        android:title="Undo"
+        app:showAsAction="always"
+        android:id="@+id/undo"
+        android:icon="@drawable/undo_24"
+        />
+
+    <item
+        android:title="Eraser"
         app:showAsAction="always"
         android:id="@+id/eraser"
         android:icon="@drawable/clear_24" />
 
     <item
-        android:title="drawMode"
+        android:title="Draw mode"
         app:showAsAction="always"
         android:id="@+id/drawMode"
         android:icon="@drawable/brush_24" />
 
     <item
-        android:title="palette"
+        android:title="Palette"
         app:showAsAction="always"
         android:id="@+id/chooseColor"
         android:icon="@drawable/palette_24" />
