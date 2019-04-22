@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+
 /**
  * Custom Paint view class.
  */
@@ -16,7 +18,7 @@ class MyPaintView extends View {
     /**
      * Drawing canvas.
      */
-    private Canvas canvas;
+    private Canvas mCanvas;
 
     /**
      * Drawing bitmap.
@@ -27,6 +29,11 @@ class MyPaintView extends View {
      * Drawing path.
      */
     private Path path;
+
+    /**
+     * Helper variable to store path and paint.
+     */
+    private MyPath mPath;
 
     /**
      * Drawing paint.
@@ -79,6 +86,16 @@ class MyPaintView extends View {
     private int r, g, b;
 
     /**
+     * ArrayList containing objects to draw.
+     */
+    private ArrayList<Object> drawObjects;
+
+    /**
+     * Helper paint to store current settings.
+     */
+    private Paint tempPaint;
+
+    /**
      * Constructor for MyPaintView class.
      *
      * @param context Used to input context.
@@ -87,9 +104,12 @@ class MyPaintView extends View {
     public MyPaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
         path = new Path();
+        mPath = new MyPath();
         paintD = new Paint();
         paintC = new Paint(Paint.ANTI_ALIAS_FLAG);
+        tempPaint = new Paint();
         setDrawingCacheEnabled(true);
+        drawObjects = new ArrayList<>();
 
         paintC.setAntiAlias(true);
 
@@ -110,9 +130,34 @@ class MyPaintView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(bm, 0, 0, paintC);
-        if (drawMode <= 1) {
-            canvas.drawPath(path, paintD);
+
+        for (Object o : drawObjects) {
+            if (o instanceof MyCircle) {
+                MyCircle x = (MyCircle) o;
+                mCanvas.drawCircle(x.getX(), x.getY(), x.getObjectSize(), x.getPaint());
+            } else if (o instanceof MyRect) {
+                MyRect r = (MyRect) o;
+                mCanvas.drawRect(r.getX(), r.getObjectSize(), r.getObjectSize(), r.getY(), r.getPaint());
+            } else if (o instanceof MyPath) {
+                MyPath p = (MyPath) o;
+                mCanvas.drawPath(p.getPath(), p.getPaint());
+            }
         }
+    }
+
+    /**
+     * Method for getting current paint settings.
+     *
+     * @return Copy of current paint.
+     */
+    public Paint currentPaint() {
+        tempPaint = new Paint();
+        tempPaint.setStyle(paintD.getStyle());
+        tempPaint.setColor(paintD.getColor());
+        tempPaint.setStrokeWidth(paintD.getStrokeWidth());
+        tempPaint.setStrokeCap(paintD.getStrokeCap());
+
+        return tempPaint;
     }
 
     @Override
@@ -126,24 +171,25 @@ class MyPaintView extends View {
                 break;
             case (MotionEvent.ACTION_DOWN) :
                 path.moveTo(x, y);
+                if (drawMode == 1 || drawMode == 0) {
+                    drawObjects.add(new MyPath(currentPaint(), path));
+                }
                 break;
             case (MotionEvent.ACTION_UP) :
                 switch (drawMode) {
                     case (0) :
-                        canvas.drawPath(path, paintD);
+                        path = new Path();
                         break;
                     case (1) :
-                        canvas.drawPath(path, paintD);
+                        path = new Path();
                         break;
                     case (2) :
-                        canvas.drawCircle(x, y, objectSize, paintD);
+                        drawObjects.add(new MyCircle(x, y, objectSize, currentPaint()));
                         break;
                     case (3) :
-                        canvas.drawRect(x, objectSize, objectSize, y, paintD);
+                        drawObjects.add(new MyRect(x, y, objectSize, currentPaint()));
                         break;
                 }
-                path.reset();
-                invalidate();
                 break;
             default :
                 return false;
@@ -157,15 +203,16 @@ class MyPaintView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(bm);
-        canvas.drawColor(bgColor);
+        mCanvas = new Canvas(bm);
+        mCanvas.drawColor(bgColor);
     }
 
     /**
      * Method for clearing canvas.
      */
     public void clear() {
-        canvas.drawColor(bgColor);
+        mCanvas.drawColor(bgColor);
+        drawObjects.clear();
         invalidate();
     }
 
@@ -189,7 +236,7 @@ class MyPaintView extends View {
      */
     public void setBgColor(int color) {
         this.bgColor = color;
-        canvas.drawColor(color);
+        mCanvas.drawColor(color);
     }
 
     /**
@@ -270,6 +317,7 @@ class MyPaintView extends View {
     public void setDrawMode(int drawMode) {
         this.drawMode = drawMode;
         colorBeforeEraser = getColor();
+        path = new Path();
 
         if (drawMode == 0) {
             if (isFill()) {
@@ -281,6 +329,15 @@ class MyPaintView extends View {
         } else {
             paintD.setColor(colorBeforeEraser);
         }
+    }
+
+    /**
+     * Method for getting current drawing mode.
+     *
+     * @return Current drawing mode.
+     */
+    public int getDrawMode() {
+        return drawMode;
     }
 
     /**
@@ -339,5 +396,25 @@ class MyPaintView extends View {
      */
     public Bitmap getBitMap() {
         return bm;
+    }
+
+    /**
+     * Method for deleting last drawing.
+     */
+    public void undoLastAction() {
+        if (drawObjects.size() != 0) {
+            drawObjects.remove(drawObjects.get(drawObjects.size() - 1));
+        }
+        mCanvas.drawColor(getBgColor());
+        invalidate();
+    }
+
+    /**
+     * Method to for getting amount of draw objects.
+     *
+     * @return Current amount of draw objects.
+     */
+    public int drawObjectsSize() {
+        return drawObjects.size();
     }
 }
