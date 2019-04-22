@@ -96,6 +96,7 @@ class MyPaintView extends View {
         brushSize = 10f;
         objectSize = 10f;
         color = 0xff000000;
+        bgColor = 0xffffffff;
         drawMode = 1;
 
         paintD.setStyle(Paint.Style.STROKE);
@@ -320,6 +321,15 @@ class MyPaintView extends View {
      */
     public int getB() {
         return b;
+    }
+
+    /**
+     * Method for getting current background color.
+     *
+     * @return Current background color.
+     */
+    public int getBgColor() {
+        return bgColor;
     }
 
     /**

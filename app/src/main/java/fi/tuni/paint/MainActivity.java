@@ -2,6 +2,7 @@ package fi.tuni.paint;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -20,7 +21,14 @@ import android.widget.Toast;
  * Main activity of paint app.
  */
 public class MainActivity extends AppCompatActivity {
+    /**
+     * Dialog for picking draw mode.
+     */
     private Dialog dialog;
+
+    /**
+     * Permission detection helper boolean.
+     */
     private boolean galleryPermission;
 
 
@@ -42,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void SaveRGB(int r, int g, int b) {
             }
-        }, mpw.getColor(), mpw.getR(), mpw.getG(), mpw.getB(), 1);
+        }, mpw.getBgColor(), 255, 255, 255, 1);
 
         colorDialog.show();
     }
