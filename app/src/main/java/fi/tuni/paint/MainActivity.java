@@ -2,7 +2,6 @@ package fi.tuni.paint;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -12,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
@@ -166,6 +166,15 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "No permission to use device gallery", Toast.LENGTH_LONG).show();
                 }
+                return true;
+            case (R.id.undo) :
+                mpw = findViewById(R.id.mpw);
+                if (mpw.drawObjectsSize() != 0) {
+                    mpw.undoLastAction();
+                } else {
+                    Toast.makeText(this, "Draw something first", Toast.LENGTH_LONG).show();
+                }
+
                 return true;
         }
         return false;
