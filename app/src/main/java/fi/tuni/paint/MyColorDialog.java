@@ -47,6 +47,7 @@ public class MyColorDialog extends Dialog {
     }
 
     /**
+     * Constructor for MyColorDialog class.
      *
      * @param context Used to input context.
      * @param onColorChangedListener Used to input color changed listener.

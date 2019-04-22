@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
@@ -40,19 +39,6 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
 
-        final MyPaintView mpw = findViewById(R.id.mpw);
-        MyColorDialog colorDialog = new MyColorDialog(this, new MyColorDialog.OnColorChangedListener() {
-            @Override
-            public void OnColorChanged(int color) {
-                mpw.setBgColor(color);
-            }
-
-            @Override
-            public void SaveRGB(int r, int g, int b) {
-            }
-        }, mpw.getBgColor(), 255, 255, 255, 1);
-
-        colorDialog.show();
     }
 
     @Override
